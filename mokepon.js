@@ -104,7 +104,6 @@ langostelvis.ataques.push(
     {nombre: "💧", id: "boton-agua"  },
     {nombre: "💧", id: "boton-agua"  },
     {nombre: "💧", id: "boton-agua"  },
-    /* {nombre: "💧-🔥", id: "boton-agua-fuego"  }, */
 )
 
 tucupama.ataques.push(
@@ -212,26 +211,12 @@ function mostrarAtaques(ataques) {
         ataquesEspacio.innerHTML += monAttack
 
     })
-    /* monTipo() */
     botonFuego  = document.getElementById('boton-fuego')
     botonAgua   = document.getElementById('boton-agua')
     botonTierra = document.getElementById('boton-tierra')
-    /* botonAguaFuego = document.getElementById('boton-agua-fuego') */
     botones = document.querySelectorAll('.BAtaque') 
 }
 
-/* function monTipo() {
-    if (monArray.tipo === "Agua-fuego") {
-        monAttack = `<input type="button" value=${ataques.nombre} id=${ataques.id} class="boton-de-ataque BAtaque">`
-        ataquesEspacio.innerHTML = monAttack
-    }else if (monArray.tipo === "Tierra-agua"){
-        monAttack = `<input type="button" value=${ataques.nombre} id=${ataques.id} class="boton-de-ataque BAtaque">`
-        ataquesEspacio.innerHTML = monAttack
-    }else if (monArray.tipo === "Fuego-tierra"){
-        monAttack = `<input type="button" value=${ataques.nombre} id=${ataques.id} class="boton-de-ataque BAtaque">`
-        ataquesEspacio.innerHTML = monAttack
-    }
-} */
 
 function secuenciaAtaque() {
     botones.forEach((boton) => {
@@ -251,12 +236,7 @@ function secuenciaAtaque() {
                 console.log(atacando)
                 boton.style.background = '#88D66C'
                 boton.disabled = true
-            }/* else if (e.target.value === '💧-🔥') {
-                atacando.push('Agua-fuego')
-                console.log(atacando)
-                boton.style.background = '#88D66C'
-                boton.disabled = true
-            } */
+            }
             ataqueEnemigo();
         })
     })
@@ -280,8 +260,6 @@ function ataqueEnemigo(){
     let ataqueAleatorio = aleatorio(0,ataquesMonEne.length  - 1);
     if (ataqueAleatorio == 0 || ataqueAleatorio == 1) {
         ataqueEneMon.push('Fuego');
-        monEneAttack = `<input type="button" value=${ataqueEneMon} id=${ataques.id} class="boton-de-ataque BAtaque">`
-        ataquesEspacioEneMon.innerHTML = monEneAttack
     }else if (ataqueAleatorio == 3 || ataqueAleatorio == 4) {
         ataqueEneMon.push('Agua');
     }else {
