@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mokepon!</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+<body>
+    <header>
+        <h1 class="titulo"> MOKEPON! 🔥💧🌱</h1>
+    </header>
+    
+    
+    <section id="mon_Pick">
+        <h3 class="titulo">Elige tu MOKEPON</h3>    
+        
+        <div id="tarjetasEspacio" class="tarjetas">
+            
+        </div>
+
+        <button id="boton-mon">Seleccionar</button>
+    </section>
+
+    <section id="attack_Pick">
+
+        <h2 class="titulo">Elige tu ataque: </h2>
+
+        <div id="ataquesEspacioFather" class="father-container1">
+            <div id="ataquesEspacio" class="attackOptions">
+                
+            </div>
+            <div id="ataquesEspacioEneMon"
+            class="attackOptions">
+
+            </div>
+        </div>
+
+        <div class="contenedorDeTarjetas">
+            <div class="tarjetasDeBatalla">
+                <p>Tu mon <span id="mon_Name"></span> tiene <span id="vidas-jugador">0</span> victorias</p>
+                <div id="playerAttack"></div>
+            </div>
+
+            <div id="mensajes">
+                <p id="resultado">Mucha suerte</p>
+                <section id="Restart">
+                    <!-- <input type="button" value="Reiniciar" id="boton-restart"> -->
+                    <button id="boton-restart">Reiniciar</button>
+                </section>
+            </div>
+            
+            <div class="tarjetasDeBatalla">
+                <p>El mon del enemigo <span id="mon_EnName"></span> tiene <span id="vidas-enemigo">0</span> victorias </p>
+                <!-- <pre>1. <span id="mon_EnName"></span>
+2. <span id="mon_En2Name"></span>
+3. <span id="mon_En3Name"></span> -->
+                 </pre>
+                <div id="enemyAttack"></div>
+            </div>
+        </div>
+
+    </section>
+
+    <footer>
+        <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sapiente quis unde voluptatem delectus perferendis blanditiis similique consequatur omnis, recusandae harum repudiandae dolorem error, ad vel expedita tenetur quibusdam maiores possimus.</p>
+    </footer>
+
+    <script src="mokepon.js"></script>
+</body>
+</html>
