@@ -208,12 +208,19 @@ function mostrarAtaques(ataques) {
         monAttack = `<input type="button" value=${ataques.nombre} id=${ataques.id} class="boton-de-ataque BAtaque">`
         
         ataquesEspacio.innerHTML += monAttack
-
     })
+
     botonFuego  = document.getElementById('boton-fuego')
     botonAgua   = document.getElementById('boton-agua')
     botonTierra = document.getElementById('boton-tierra')
     botones = document.querySelectorAll('.BAtaque') 
+}
+
+function mostrarAtaquesEne() {
+    for (let i = 0; i < ataqueEneMon.length; i++) {
+        monEneAttack = `<input type="button" value=${ataqueEneMon[i]} class="boton-de-ataque BAtaque">`
+        ataquesEspacioEneMon.innerHTML += monEneAttack
+    }
 }
 
 
@@ -307,6 +314,7 @@ function decisionDeBatalla() {
             spanVidasEne.innerHTML = winEne
         }
     }
+        mostrarAtaquesEne()
         revisarWins()
 }
 
@@ -326,15 +334,15 @@ function reiniarElYogo() {
 
 function crearMensaje(combate) {
 
-    let newPlayerAttack = document.createElement('p')
-    let newEnemyAttack = document.createElement('p')
+    /* let newPlayerAttack = document.createElement('p')
+    let newEnemyAttack = document.createElement('p') */
 
     sectionMensajes.innerHTML = combate
-    newPlayerAttack.innerHTML = iMonPlayer
-    newEnemyAttack.innerHTML = iMonEne
+    /* newPlayerAttack.innerHTML = iMonPlayer
+    newEnemyAttack.innerHTML = iMonEne */
 
-    playerAttack.appendChild(newPlayerAttack)
-    enemyAttack.appendChild(newEnemyAttack)
+    /* playerAttack.appendChild(newPlayerAttack)
+    enemyAttack.appendChild(newEnemyAttack) */
 }
 
 function crearMensajeFinal(resultado) {
