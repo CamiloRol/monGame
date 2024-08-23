@@ -3,6 +3,7 @@ let ataqueJugador;
 /* let vidasJugador = 3;
 let vidasEneMon = 3; */
 /* const damageEmpate = 0.5; */
+let ataques
 let combate;
 let resultado;
 let monOptions;
@@ -194,8 +195,6 @@ function seleccionarMonJugador(){
 }
 //funcion para recorrer un Array y guardar uno de los datos en un dato global
 function extraerAtaques(monPlayer) {
-    let ataques
-
     for (let i = 0; i < monArray.length; i++) {
         if (monPlayer === monArray[i].nombre) {
             ataques = monArray[i].ataques
