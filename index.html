@@ -23,6 +23,15 @@
         <button id="boton-mon">Seleccionar</button>
     </section>
 
+    <section id="verMapa">
+        <h3 class="titulo">Recorre el mapa con tu mon</h3>
+        <canvas id="mapa"></canvas>
+        <button onmouseup="detenerMovimiento()" onmousedown="moverCapipepoR()">Right</button> 
+        <button onmouseup="detenerMovimiento()" onmousedown="moverCapipepoL()">Left</button>
+        <button onmouseup="detenerMovimiento()" onmousedown="moverCapipepoU()">Up</button> 
+        <button onmouseup="detenerMovimiento()" onmousedown="moverCapipepoD()">Down</button>
+    </section>
+
     <section id="attack_Pick">
 
         <h2 class="titulo">Elige tu ataque: </h2>

@@ -167,6 +167,16 @@ label:hover {
     align-items: center;
 }
 
+#verMapa {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#mapa {
+    border: 2px solid wheat;
+}
+
 footer {
     display: flex;
     background-color: #88D66C;

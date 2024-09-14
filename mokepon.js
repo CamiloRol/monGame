@@ -28,6 +28,11 @@ let monArray = [];
 let botones = [];
 let atacando = [];
 let ataqueEneMon = [];
+let lienzo;
+let intervalo;
+let miMon;
+let mapaBackground = new Image()
+mapaBackground.src = 'recursos/mokemap.png'
 
 const ataquesEspacioEneMon = document.getElementById('ataquesEspacioEneMon')
 
@@ -48,6 +53,10 @@ const spanVidasEne = document.getElementById('vidas-enemigo')
 const sectionMensajes = document.getElementById('resultado')
 const playerAttack = document.getElementById('playerAttack')
 const enemyAttack = document.getElementById('enemyAttack')
+const verMapa = document.getElementById("verMapa")
+const mapa = document.getElementById("mapa")
+
+lienzo = mapa.getContext("2d")
 
 //Escuchador de ventana para precargar todo
 window.addEventListener('load', iniciarJuego)
@@ -60,6 +69,14 @@ class MonGen {
         this.vida = vida
         this.ataques = []
         this.tipo = tipo
+        this.x = 20
+        this.y = 30
+        this.ancho = 80
+        this.alto = 80
+        this.mapaFoto = new Image()
+        this.mapaFoto.src = foto
+        this.velocidadX = 0
+        this.velocidadY = 0
     }
 }
 
@@ -149,6 +166,7 @@ function iniciarJuego(){
         inputPydos = document.getElementById('Pydos')
     })
     
+    verMapa.style.display = 'none'
     sectionAtaque.style.display = 'none'
     sectionReiniciar.style.display = 'none'
 
@@ -157,8 +175,10 @@ function iniciarJuego(){
 }
 
 function seleccionarMonJugador(){
-    sectionAtaque.style.display = 'flex'
     sectionMon.style.display = 'none'
+    verMapa.style.display = 'flex'
+    /* sectionAtaque.style.display = 'flex' */
+
 
     if (inputHipodoge.checked) {
         spanMonName.innerHTML = inputHipodoge.id
@@ -191,8 +211,18 @@ function seleccionarMonJugador(){
 
     extraerAtaques(monPlayer)
     seleccionarMonEnemigo();
-    
+    iniciarMapa()
 }
+
+function iniciarMapa() {
+    mapa.width = 800
+    mapa.height = 600
+    intervalo = setInterval(pintarCanvas, 50)
+    window.addEventListener('keydown', sePresionoUnaTecla)
+    window.addEventListener('keyup', detenerMovimiento)
+    miMon = obtenerObjetoMascota()
+}
+
 //funcion para recorrer un Array y guardar uno de los datos en un dato global
 function extraerAtaques(monPlayer) {
     for (let i = 0; i < monArray.length; i++) {
@@ -348,4 +378,73 @@ function crearMensaje(combate) {
 function crearMensajeFinal(resultado) {
     sectionMensajes.innerHTML = resultado;
     sectionReiniciar.style.display = 'block'
+}
+
+function pintarCanvas() {
+    miMon.x += miMon.velocidadX
+    miMon.y += miMon.velocidadY
+    lienzo.clearRect(0,0,mapa.clientWidth,mapa.clientHeight)
+    lienzo.drawImage(
+        mapaBackground,
+        0,
+        0,
+        mapa.width,
+        mapa.height,
+    )
+    lienzo.drawImage(
+        miMon.mapaFoto,
+        miMon.x,
+        miMon.y,
+        miMon.ancho,
+        miMon.alto);
+}
+
+function obtenerObjetoMascota() {
+    for (let i = 0; i < monArray.length; i++) {
+        if (monPlayer === monArray[i].nombre) {
+            return monArray[i]
+        }   
+    }
+}
+
+function moverCapipepoR() {
+    miMon.velocidadX = 5
+}
+
+function moverCapipepoL() {
+    miMon.velocidadX = -5
+}
+
+function moverCapipepoU() {
+    miMon.velocidadY = -5
+}
+
+function moverCapipepoD() {
+    miMon.velocidadY = 5
+}
+
+function detenerMovimiento() {
+    miMon.velocidadX = 0
+    miMon.velocidadY = 0
+}
+
+function sePresionoUnaTecla(event) {
+    switch (event.key) {
+        case 'ArrowUp':
+            moverCapipepoU()
+            break;
+        
+        case 'ArrowRight':
+            moverCapipepoR()
+            break;
+
+        case 'ArrowDown':
+            moverCapipepoD()
+            break;
+        case 'ArrowLeft':
+            moverCapipepoL()
+            break;
+        default:
+            break;
+    }
 }
