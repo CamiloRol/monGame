@@ -1,4 +1,27 @@
 //Declaracion de variables
+const ataquesEspacioEneMon = document.getElementById('ataquesEspacioEneMon')
+
+const ataquesEspacio = document.getElementById('ataquesEspacio')
+const tarjetasEspacio = document.getElementById('tarjetasEspacio')
+
+const sectionAtaque = document.getElementById('attack_Pick')
+const sectionReiniciar = document.getElementById('Restart')
+const botonMonJugador = document.getElementById('boton-mon')
+const botonReiniciar = document.getElementById('boton-restart')
+
+const sectionMon = document.getElementById('mon_Pick')
+const spanMonName = document.getElementById('mon_Name')
+
+const spanVidasJug = document.getElementById('vidas-jugador')
+const spanVidasEne = document.getElementById('vidas-enemigo')
+
+const sectionMensajes = document.getElementById('resultado')
+const playerAttack = document.getElementById('playerAttack')
+const enemyAttack = document.getElementById('enemyAttack')
+const verMapa = document.getElementById("verMapa")
+const mapa = document.getElementById("mapa")
+const anchoMaximoDelMapa = 350
+
 let ataqueJugador;
 /* let vidasJugador = 3;
 let vidasEneMon = 3; */
@@ -33,28 +56,18 @@ let intervalo;
 let miMon;
 let mapaBackground = new Image()
 mapaBackground.src = 'recursos/mokemap.png'
+/* let monAleatorio = aleatorio(0, monArray.length  - 1); */
+let alturaQueBuscamos
+let anchoDelMapa = window.innerWidth - 20
 
-const ataquesEspacioEneMon = document.getElementById('ataquesEspacioEneMon')
+alturaQueBuscamos = (anchoDelMapa * 600) / 800
 
-const ataquesEspacio = document.getElementById('ataquesEspacio')
-const tarjetasEspacio = document.getElementById('tarjetasEspacio')
+mapa.width = anchoDelMapa
+mapa.height = alturaQueBuscamos
 
-const sectionAtaque = document.getElementById('attack_Pick')
-const sectionReiniciar = document.getElementById('Restart')
-const botonMonJugador = document.getElementById('boton-mon')
-const botonReiniciar = document.getElementById('boton-restart')
-
-const sectionMon = document.getElementById('mon_Pick')
-const spanMonName = document.getElementById('mon_Name')
-
-const spanVidasJug = document.getElementById('vidas-jugador')
-const spanVidasEne = document.getElementById('vidas-enemigo')
-
-const sectionMensajes = document.getElementById('resultado')
-const playerAttack = document.getElementById('playerAttack')
-const enemyAttack = document.getElementById('enemyAttack')
-const verMapa = document.getElementById("verMapa")
-const mapa = document.getElementById("mapa")
+if (anchoDelMapa > anchoMaximoDelMapa) {
+    anchoDelMapa = anchoMaximoDelMapa -20
+}
 
 lienzo = mapa.getContext("2d")
 
@@ -63,36 +76,60 @@ window.addEventListener('load', iniciarJuego)
 
 //Clase constructora de los mones
 class MonGen {
-    constructor(nombre, foto, vida, tipo) {
+    constructor(nombre, foto, vida, tipo, fotoMapa) {
         this.nombre = nombre
         this.foto = foto
         this.vida = vida
         this.ataques = []
         this.tipo = tipo
-        this.x = 20
-        this.y = 30
         this.ancho = 80
         this.alto = 80
+        this.x = aleatorio(0, mapa.width - this.ancho)
+        this.y = aleatorio(0, mapa.height - this.alto)
         this.mapaFoto = new Image()
-        this.mapaFoto.src = foto
+        this.mapaFoto.src = fotoMapa
         this.velocidadX = 0
         this.velocidadY = 0
+    }
+    pintarMon(){
+        lienzo.drawImage(
+            this.mapaFoto,
+            this.x,
+            this.y,
+            this.ancho,
+            this.alto);
     }
 }
 
 //Creacion del objeto
-let hipodoge = new MonGen("Hipodoge",'recursos/cute-4784545.png', 5, "Agua")
-let capipepo = new MonGen("Capipepo",'recursos/pokemon-4784546.png', 45, "Tierra")
-let ratigueya = new MonGen("Ratigueya",'recursos/pokemon-4784547.png', 30, "Fuego")
-let langostelvis = new MonGen("Langostelvis",'recursos/pokemon-4784549.png', 25, "Agua-fuego")
-let tucupama = new MonGen("Tucupama",'recursos/pokemon-4784550.png', 50, "Tierra-agua")
-let pydos = new MonGen("Pydos",'recursos/pokemon-4784551.png', 30, "Fuego-tierra")
+let hipodoge = new MonGen("Hipodoge",'recursos/cute-4784545.png', 5, "Agua", 'recursos/hipodoge.png')
+let capipepo = new MonGen("Capipepo",'recursos/pokemon-4784546.png', 45, "Tierra", 'recursos/capipepo.png')
+let ratigueya = new MonGen("Ratigueya",'recursos/pokemon-4784547.png', 30, "Fuego", 'recursos/ratigueya.png')
+let langostelvis = new MonGen("Langostelvis",'recursos/pokemon-4784549.png', 25, "Agua-fuego", 'recursos/langostelvis.png')
+let tucupama = new MonGen("Tucupama",'recursos/pokemon-4784550.png', 50, "Tierra-agua", 'recursos/tucupama.png')
+let pydos = new MonGen("Pydos",'recursos/pokemon-4784551.png', 30, "Fuego-tierra", 'recursos/pydos.png')
+
+//Enemigos
+let hipodogeEne = new MonGen("Hipodoge",'recursos/cute-4784545.png', 5, "Agua", 'recursos/hipodoge.png')
+let capipepoEne = new MonGen("Capipepo",'recursos/pokemon-4784546.png', 45, "Tierra", 'recursos/capipepo.png')
+let ratigueyaEne = new MonGen("Ratigueya",'recursos/pokemon-4784547.png', 30, "Fuego", 'recursos/ratigueya.png')
+let langostelvisEne = new MonGen("Langostelvis",'recursos/pokemon-4784549.png', 25, "Agua-fuego", 'recursos/langostelvis.png')
+let tucupamaEne = new MonGen("Tucupama",'recursos/pokemon-4784550.png', 50, "Tierra-agua", 'recursos/tucupama.png')
+let pydosEne = new MonGen("Pydos",'recursos/pokemon-4784551.png', 30, "Fuego-tierra", 'recursos/pydos.png')
 
 //Insercion de objetos en el array
 monArray.push(hipodoge,capipepo,ratigueya,langostelvis,tucupama,pydos)
 
 //insercion de conjunto de ataques en el array ataques[] dentro del espacio de los monArray[] 
 hipodoge.ataques.push(
+    {nombre: "💧", id: "boton-agua"  },
+    {nombre: "💧", id: "boton-agua"  },
+    {nombre: "💧", id: "boton-agua"  },
+    {nombre: "🌱", id: "boton-tierra"  },
+    {nombre: "🔥", id: "boton-fuego"  },
+)
+
+hipodogeEne.ataques.push(
     {nombre: "💧", id: "boton-agua"  },
     {nombre: "💧", id: "boton-agua"  },
     {nombre: "💧", id: "boton-agua"  },
@@ -108,7 +145,23 @@ capipepo.ataques.push(
     {nombre: "🔥", id: "boton-fuego"  },
 )
 
+capipepoEne.ataques.push(
+    {nombre: "🌱", id: "boton-tierra"  },
+    {nombre: "🌱", id: "boton-tierra"  },
+    {nombre: "🌱", id: "boton-tierra"  },
+    {nombre: "💧", id: "boton-agua"  },
+    {nombre: "🔥", id: "boton-fuego"  },
+)
+
 ratigueya.ataques.push(
+    {nombre: "🔥", id: "boton-fuego"  },
+    {nombre: "🔥", id: "boton-fuego"  },
+    {nombre: "🔥", id: "boton-fuego"  },
+    {nombre: "🌱", id: "boton-tierra"  },
+    {nombre: "💧", id: "boton-agua"  },
+)
+
+ratigueyaEne.ataques.push(
     {nombre: "🔥", id: "boton-fuego"  },
     {nombre: "🔥", id: "boton-fuego"  },
     {nombre: "🔥", id: "boton-fuego"  },
@@ -124,6 +177,14 @@ langostelvis.ataques.push(
     {nombre: "💧", id: "boton-agua"  },
 )
 
+langostelvisEne.ataques.push(
+    {nombre: "🔥", id: "boton-fuego"  },
+    {nombre: "🔥", id: "boton-fuego"  },
+    {nombre: "💧", id: "boton-agua"  },
+    {nombre: "💧", id: "boton-agua"  },
+    {nombre: "💧", id: "boton-agua"  },
+)
+
 tucupama.ataques.push(
     {nombre: "🌱", id: "boton-tierra"  },
     {nombre: "🌱", id: "boton-tierra"  },
@@ -132,7 +193,23 @@ tucupama.ataques.push(
     {nombre: "💧", id: "boton-agua"  },
 )
 
+tucupamaEne.ataques.push(
+    {nombre: "🌱", id: "boton-tierra"  },
+    {nombre: "🌱", id: "boton-tierra"  },
+    {nombre: "🌱", id: "boton-tierra"  },
+    {nombre: "💧", id: "boton-agua"  },
+    {nombre: "💧", id: "boton-agua"  },
+)
+
 pydos.ataques.push(
+    {nombre: "🔥", id: "boton-fuego"  },
+    {nombre: "🔥", id: "boton-fuego"  },
+    {nombre: "🔥", id: "boton-fuego"  },
+    {nombre: "🌱", id: "boton-tierra"  },
+    {nombre: "🌱", id: "boton-tierra"  },
+)
+
+pydosEne.ataques.push(
     {nombre: "🔥", id: "boton-fuego"  },
     {nombre: "🔥", id: "boton-fuego"  },
     {nombre: "🔥", id: "boton-fuego"  },
@@ -177,8 +254,6 @@ function iniciarJuego(){
 function seleccionarMonJugador(){
     sectionMon.style.display = 'none'
     verMapa.style.display = 'flex'
-    /* sectionAtaque.style.display = 'flex' */
-
 
     if (inputHipodoge.checked) {
         spanMonName.innerHTML = inputHipodoge.id
@@ -210,13 +285,11 @@ function seleccionarMonJugador(){
     }
 
     extraerAtaques(monPlayer)
-    seleccionarMonEnemigo();
     iniciarMapa()
 }
 
 function iniciarMapa() {
-    mapa.width = 800
-    mapa.height = 600
+
     intervalo = setInterval(pintarCanvas, 50)
     window.addEventListener('keydown', sePresionoUnaTecla)
     window.addEventListener('keyup', detenerMovimiento)
@@ -278,17 +351,16 @@ function secuenciaAtaque() {
     })
 }
 
-function seleccionarMonEnemigo() {
-    let monAleatorio = aleatorio(0, monArray.length  - 1);
+function seleccionarMonEnemigo(enemigo) {
     let spanMon1EnName = document.getElementById('mon_EnName')
-    ataquesEspacioEneMon.innerHTML = `<img src=${monArray[monAleatorio].foto} alt="p1" class="monPic">` 
+    ataquesEspacioEneMon.innerHTML = `<img src=${enemigo.foto} alt="p1" class="monPic">` 
     /* let spanMon2EnName = document.getElementById('mon_En2Name')
     let spanMon3EnName = document.getElementById('mon_En3Name') */
 
-    spanMon1EnName.innerHTML = monArray[monAleatorio].nombre/* 
+    spanMon1EnName.innerHTML = enemigo.nombre/* 
     spanMon2EnName.innerHTML = monArray[monAleatorio].nombre
     spanMon3EnName.innerHTML = monArray[monAleatorio].nombre */
-    ataquesMonEne = monArray[monAleatorio].ataques
+    ataquesMonEne = enemigo.ataques
     secuenciaAtaque();
 }
 
@@ -391,12 +463,21 @@ function pintarCanvas() {
         mapa.width,
         mapa.height,
     )
-    lienzo.drawImage(
-        miMon.mapaFoto,
-        miMon.x,
-        miMon.y,
-        miMon.ancho,
-        miMon.alto);
+    miMon.pintarMon()
+    hipodogeEne.pintarMon()
+    capipepoEne.pintarMon()
+    ratigueyaEne.pintarMon()
+    langostelvisEne.pintarMon()
+    tucupamaEne.pintarMon()
+    pydosEne.pintarMon()
+    if (miMon.velocidadX != 0 || miMon.ImagevelocidadY != 0) {
+        revisarColision(hipodogeEne)
+        revisarColision(capipepoEne)
+        revisarColision(ratigueyaEne)
+        revisarColision(langostelvisEne)
+        revisarColision(tucupamaEne)
+        revisarColision(pydosEne)
+    }
 }
 
 function obtenerObjetoMascota() {
@@ -447,4 +528,30 @@ function sePresionoUnaTecla(event) {
         default:
             break;
     }
+}
+
+function revisarColision(enemigo) {
+    const arribaEnemigo = enemigo.y
+    const abajoEnemigo = enemigo.y + enemigo.alto
+    const derechaEnemigo = enemigo.x +enemigo.ancho
+    const izquierdaEnemigo = enemigo.x
+
+    const arribaMascota = miMon.y
+    const abajoMascota = miMon.y + miMon.alto
+    const derechaMascota = miMon.x +miMon.ancho
+    const izquierdaMascota = miMon.x
+
+    if (
+        abajoMascota < arribaEnemigo ||
+        arribaMascota > abajoEnemigo ||
+        derechaMascota < izquierdaEnemigo ||
+        izquierdaMascota > derechaEnemigo
+    ) {
+        return
+    }
+    detenerMovimiento()
+    clearInterval(intervalo)
+    sectionAtaque.style.display = 'flex'
+    verMapa.style.display = 'none'
+    seleccionarMonEnemigo(enemigo);
 }

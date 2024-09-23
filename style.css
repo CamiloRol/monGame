@@ -173,6 +173,16 @@ label:hover {
     justify-content: center;
 }
 
+#verMapa button {
+        margin-bottom: 3%;
+        width: 80px;
+        height: 40px;
+        border-color: transparent;
+        background-color: #88D66C;
+        border-radius: 4%;
+        align-self: center;
+}
+
 #mapa {
     border: 2px solid wheat;
 }
@@ -185,4 +195,10 @@ footer {
     padding: 10px;
 }
 
-
+@media (max-width: 360px) {
+    #verMapa div {
+        display: flex;
+        align-items: center;
+        flex-direction: column;
+    }
+}
