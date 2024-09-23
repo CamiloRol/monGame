@@ -195,7 +195,7 @@ footer {
     padding: 10px;
 }
 
-@media (max-width: 360px) {
+@media (max-width: 300px) {
     #verMapa div {
         display: flex;
         align-items: center;
