@@ -48,6 +48,7 @@ let iMonEne;
 let winPlayer = 0;
 let winEne = 0
 let monArray = [];
+let mokeponesEnemigos = [];
 let botones = [];
 let atacando = [];
 let ataqueEneMon = [];
@@ -59,6 +60,8 @@ mapaBackground.src = 'recursos/mokemap.png'
 /* let monAleatorio = aleatorio(0, monArray.length  - 1); */
 let alturaQueBuscamos
 let anchoDelMapa = window.innerWidth - 20
+let jugadorId = null
+let enemigoId = null
 
 alturaQueBuscamos = (anchoDelMapa * 600) / 800
 
@@ -76,7 +79,8 @@ window.addEventListener('load', iniciarJuego)
 
 //Clase constructora de los mones
 class MonGen {
-    constructor(nombre, foto, vida, tipo, fotoMapa) {
+    constructor(nombre, foto, vida, tipo, fotoMapa, id = null) {
+        this.id = id
         this.nombre = nombre
         this.foto = foto
         this.vida = vida
@@ -109,114 +113,69 @@ let langostelvis = new MonGen("Langostelvis",'recursos/pokemon-4784549.png', 25,
 let tucupama = new MonGen("Tucupama",'recursos/pokemon-4784550.png', 50, "Tierra-agua", 'recursos/tucupama.png')
 let pydos = new MonGen("Pydos",'recursos/pokemon-4784551.png', 30, "Fuego-tierra", 'recursos/pydos.png')
 
-//Enemigos
-let hipodogeEne = new MonGen("Hipodoge",'recursos/cute-4784545.png', 5, "Agua", 'recursos/hipodoge.png')
-let capipepoEne = new MonGen("Capipepo",'recursos/pokemon-4784546.png', 45, "Tierra", 'recursos/capipepo.png')
-let ratigueyaEne = new MonGen("Ratigueya",'recursos/pokemon-4784547.png', 30, "Fuego", 'recursos/ratigueya.png')
-let langostelvisEne = new MonGen("Langostelvis",'recursos/pokemon-4784549.png', 25, "Agua-fuego", 'recursos/langostelvis.png')
-let tucupamaEne = new MonGen("Tucupama",'recursos/pokemon-4784550.png', 50, "Tierra-agua", 'recursos/tucupama.png')
-let pydosEne = new MonGen("Pydos",'recursos/pokemon-4784551.png', 30, "Fuego-tierra", 'recursos/pydos.png')
-
 //Insercion de objetos en el array
 monArray.push(hipodoge,capipepo,ratigueya,langostelvis,tucupama,pydos)
 
+const hipodogeAtaques = [
+    {nombre: "💧", id: "boton-agua"  },
+    {nombre: "💧", id: "boton-agua"  },
+    {nombre: "💧", id: "boton-agua"  },
+    {nombre: "🌱", id: "boton-tierra"  },
+    {nombre: "🔥", id: "boton-fuego"  },
+]
+
+const capipepoAtaques = [
+    {nombre: "🌱", id: "boton-tierra"  },
+    {nombre: "🌱", id: "boton-tierra"  },
+    {nombre: "🌱", id: "boton-tierra"  },
+    {nombre: "💧", id: "boton-agua"  },
+    {nombre: "🔥", id: "boton-fuego"  },
+]
+
+const ratigueyaAtaques = [
+    {nombre: "🔥", id: "boton-fuego"  },
+    {nombre: "🔥", id: "boton-fuego"  },
+    {nombre: "🔥", id: "boton-fuego"  },
+    {nombre: "🌱", id: "boton-tierra"  },
+    {nombre: "💧", id: "boton-agua"  },
+]
+
+const  langostelvisAtaques = [
+    {nombre: "🔥", id: "boton-fuego"  },
+    {nombre: "🔥", id: "boton-fuego"  },
+    {nombre: "💧", id: "boton-agua"  },
+    {nombre: "💧", id: "boton-agua"  },
+    {nombre: "💧", id: "boton-agua"  },
+]
+
+const tucupamaAtaques = [
+    {nombre: "🌱", id: "boton-tierra"  },
+    {nombre: "🌱", id: "boton-tierra"  },
+    {nombre: "🌱", id: "boton-tierra"  },
+    {nombre: "💧", id: "boton-agua"  },
+    {nombre: "💧", id: "boton-agua"  },
+]
+
+const pydosAtaques = [
+    {nombre: "🔥", id: "boton-fuego"  },
+    {nombre: "🔥", id: "boton-fuego"  },
+    {nombre: "🔥", id: "boton-fuego"  },
+    {nombre: "🌱", id: "boton-tierra"  },
+    {nombre: "🌱", id: "boton-tierra"  },
+]
+
 //insercion de conjunto de ataques en el array ataques[] dentro del espacio de los monArray[] 
-hipodoge.ataques.push(
-    {nombre: "💧", id: "boton-agua"  },
-    {nombre: "💧", id: "boton-agua"  },
-    {nombre: "💧", id: "boton-agua"  },
-    {nombre: "🌱", id: "boton-tierra"  },
-    {nombre: "🔥", id: "boton-fuego"  },
-)
+hipodoge.ataques.push(...hipodogeAtaques)
 
-hipodogeEne.ataques.push(
-    {nombre: "💧", id: "boton-agua"  },
-    {nombre: "💧", id: "boton-agua"  },
-    {nombre: "💧", id: "boton-agua"  },
-    {nombre: "🌱", id: "boton-tierra"  },
-    {nombre: "🔥", id: "boton-fuego"  },
-)
+capipepo.ataques.push(...capipepoAtaques)
 
-capipepo.ataques.push(
-    {nombre: "🌱", id: "boton-tierra"  },
-    {nombre: "🌱", id: "boton-tierra"  },
-    {nombre: "🌱", id: "boton-tierra"  },
-    {nombre: "💧", id: "boton-agua"  },
-    {nombre: "🔥", id: "boton-fuego"  },
-)
+ratigueya.ataques.push(...ratigueyaAtaques)
 
-capipepoEne.ataques.push(
-    {nombre: "🌱", id: "boton-tierra"  },
-    {nombre: "🌱", id: "boton-tierra"  },
-    {nombre: "🌱", id: "boton-tierra"  },
-    {nombre: "💧", id: "boton-agua"  },
-    {nombre: "🔥", id: "boton-fuego"  },
-)
+langostelvis.ataques.push(...langostelvisAtaques)
 
-ratigueya.ataques.push(
-    {nombre: "🔥", id: "boton-fuego"  },
-    {nombre: "🔥", id: "boton-fuego"  },
-    {nombre: "🔥", id: "boton-fuego"  },
-    {nombre: "🌱", id: "boton-tierra"  },
-    {nombre: "💧", id: "boton-agua"  },
-)
+tucupama.ataques.push(...tucupamaAtaques)
 
-ratigueyaEne.ataques.push(
-    {nombre: "🔥", id: "boton-fuego"  },
-    {nombre: "🔥", id: "boton-fuego"  },
-    {nombre: "🔥", id: "boton-fuego"  },
-    {nombre: "🌱", id: "boton-tierra"  },
-    {nombre: "💧", id: "boton-agua"  },
-)
-
-langostelvis.ataques.push(
-    {nombre: "🔥", id: "boton-fuego"  },
-    {nombre: "🔥", id: "boton-fuego"  },
-    {nombre: "💧", id: "boton-agua"  },
-    {nombre: "💧", id: "boton-agua"  },
-    {nombre: "💧", id: "boton-agua"  },
-)
-
-langostelvisEne.ataques.push(
-    {nombre: "🔥", id: "boton-fuego"  },
-    {nombre: "🔥", id: "boton-fuego"  },
-    {nombre: "💧", id: "boton-agua"  },
-    {nombre: "💧", id: "boton-agua"  },
-    {nombre: "💧", id: "boton-agua"  },
-)
-
-tucupama.ataques.push(
-    {nombre: "🌱", id: "boton-tierra"  },
-    {nombre: "🌱", id: "boton-tierra"  },
-    {nombre: "🌱", id: "boton-tierra"  },
-    {nombre: "💧", id: "boton-agua"  },
-    {nombre: "💧", id: "boton-agua"  },
-)
-
-tucupamaEne.ataques.push(
-    {nombre: "🌱", id: "boton-tierra"  },
-    {nombre: "🌱", id: "boton-tierra"  },
-    {nombre: "🌱", id: "boton-tierra"  },
-    {nombre: "💧", id: "boton-agua"  },
-    {nombre: "💧", id: "boton-agua"  },
-)
-
-pydos.ataques.push(
-    {nombre: "🔥", id: "boton-fuego"  },
-    {nombre: "🔥", id: "boton-fuego"  },
-    {nombre: "🔥", id: "boton-fuego"  },
-    {nombre: "🌱", id: "boton-tierra"  },
-    {nombre: "🌱", id: "boton-tierra"  },
-)
-
-pydosEne.ataques.push(
-    {nombre: "🔥", id: "boton-fuego"  },
-    {nombre: "🔥", id: "boton-fuego"  },
-    {nombre: "🔥", id: "boton-fuego"  },
-    {nombre: "🌱", id: "boton-tierra"  },
-    {nombre: "🌱", id: "boton-tierra"  },
-)
-
+pydos.ataques.push(...pydosAtaques)
 
 //funciones
 function aleatorio(min, max) {
@@ -249,11 +208,23 @@ function iniciarJuego(){
 
     botonMonJugador.addEventListener('click', seleccionarMonJugador)
     botonReiniciar.addEventListener('click', reiniarElYogo)
+    unirseAlJuego()
+}
+
+function unirseAlJuego() {
+    fetch("http://localhost:8080/unirse")
+        .then(function (res) {
+            if (res.ok) {
+                res.text()
+                    .then(function(respuesta){
+                        console.log(respuesta);
+                        jugadorId = respuesta
+                    })
+            }
+    })
 }
 
 function seleccionarMonJugador(){
-    sectionMon.style.display = 'none'
-    verMapa.style.display = 'flex'
 
     if (inputHipodoge.checked) {
         spanMonName.innerHTML = inputHipodoge.id
@@ -283,9 +254,24 @@ function seleccionarMonJugador(){
         alert('No has seleccionado un mon')
         reiniarElYogo()
     }
-
+    
+    sectionMon.style.display = 'none'
+    seleccionarMoni(monPlayer)
     extraerAtaques(monPlayer)
+    verMapa.style.display = 'flex'
     iniciarMapa()
+}
+
+function seleccionarMoni(monPlayer) {
+    fetch(`http://localhost:8080/mokepon/${jugadorId}` , {
+        method: "post",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            mokepon: monPlayer
+        })
+        })
 }
 
 function iniciarMapa() {
@@ -346,8 +332,39 @@ function secuenciaAtaque() {
                 boton.style.background = '#88D66C'
                 boton.disabled = true
             }
-            ataqueEnemigo();
+            if (ataqueJugador.length===5) {
+            enviarAtaque();
+            }
         })
+    })
+}
+
+function enviarAtaque() {
+    fetch(`http://localhost:8080/mokepon/${jugadorId}/ataques`, {
+        method: "post",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            ataques: ataqueJugador
+        })
+    })
+
+    intervalo = setInterval(obtenerAtaques, 50)
+}
+
+function obtenerAtaques() {
+    fetchfetch(`http://localhost:8080/mokepon/${enemigoId}}/ataques`)
+    .then(function (res) {
+        if (res.ok) {
+            res.json()
+            .then(function ({ataques}){
+                if (ataques.length === 5) {
+                    ataqueEnemigo = ataques
+                    decisionDeBatalla()
+                }
+            })
+        }
     })
 }
 
@@ -389,6 +406,7 @@ function iMon(jugador,enemigo) {
 }
 
 function decisionDeBatalla() {
+    clearInterval(intervalo)
 
     for (let i = 0; i < atacando.length; i++) {
         if (atacando[i] === ataqueEneMon[i]) {
@@ -464,20 +482,54 @@ function pintarCanvas() {
         mapa.height,
     )
     miMon.pintarMon()
-    hipodogeEne.pintarMon()
-    capipepoEne.pintarMon()
-    ratigueyaEne.pintarMon()
-    langostelvisEne.pintarMon()
-    tucupamaEne.pintarMon()
-    pydosEne.pintarMon()
-    if (miMon.velocidadX != 0 || miMon.ImagevelocidadY != 0) {
-        revisarColision(hipodogeEne)
-        revisarColision(capipepoEne)
-        revisarColision(ratigueyaEne)
-        revisarColision(langostelvisEne)
-        revisarColision(tucupamaEne)
-        revisarColision(pydosEne)
-    }
+
+    enviarPosicion(miMon.x , miMon.y)
+
+    mokeponesEnemigos.forEach(function(mokepon) {
+        mokepon.pintarMon()
+        revisarColision(mokepon)
+    })
+}
+
+function enviarPosicion(x, y) {
+    fetch(`http://localhost:8080/mokepon/${jugadorId}/posicion`, { 
+        method: "post",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            x,
+            y
+        })
+    })
+    .then(function(res) {
+        if (res.ok) {
+            res.json()
+                .then(function({enemigos}){
+                    console.log(enemigos);
+                    mokeponesEnemigos = enemigos.map(function(enemigo){
+                        let mokeponEnemigo = null
+                        const mokeponNombre = enemigo.mokepon.nombre || ""
+                        if (mokeponNombre === "Hipodoge") {
+                            mokeponEnemigo = new MonGen("Hipodoge",'recursos/cute-4784545.png', 5, "Agua", 'recursos/hipodoge.png', enemigo.id)
+                        }else if (mokeponNombre === "Capipepo") {
+                            mokeponEnemigo = new MonGen("Capipepo",'recursos/pokemon-4784546.png', 45, "Tierra", 'recursos/capipepo.png', enemigo.id)
+                        }else if (mokeponNombre === "Ratigueya") {
+                            mokeponEnemigo = new MonGen("Ratigueya",'recursos/pokemon-4784547.png', 30, "Fuego", 'recursos/ratigueya.png', enemigo.id)
+                        }else if (mokeponNombre === "Langostelvis") {
+                            mokeponEnemigo = new MonGen("Langostelvis",'recursos/pokemon-4784549.png', 25, "Agua-fuego", 'recursos/langostelvis.png', enemigo.id)
+                        }else if (mokeponNombre === "Tucupama") {
+                            mokeponEnemigo = new MonGen("Tucupama",'recursos/pokemon-4784550.png', 50, "Tierra-agua", 'recursos/tucupama.png', enemigo.id)
+                        }else if (mokeponNombre === "Pydos") {
+                            mokeponEnemigo = new MonGen("Pydos",'recursos/pokemon-4784551.png', 30, "Fuego-tierra", 'recursos/pydos.png', enemigo.id)
+                        }
+                        mokeponEnemigo.x = enemigo.x
+                        mokeponEnemigo.y = enemigo.y
+                        return mokeponEnemigo
+                    })
+                })
+        }
+    })
 }
 
 function obtenerObjetoMascota() {
@@ -551,6 +603,7 @@ function revisarColision(enemigo) {
     }
     detenerMovimiento()
     clearInterval(intervalo)
+    enemigoId = enemigo.id
     sectionAtaque.style.display = 'flex'
     verMapa.style.display = 'none'
     seleccionarMonEnemigo(enemigo);
