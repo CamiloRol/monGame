@@ -26,11 +26,12 @@
     <section id="verMapa">
         <h2 class="titulo">Recorre el mapa con tu mon</h2>
         <canvas id="mapa"></canvas>
-        <button onmouseup="detenerMovimiento()" onmousedown="moverCapipepoR()">Right</button> 
+            <button onmouseup="detenerMovimiento()"    onmousedown="moverCapipepoR()" ontouchstart="detenerMovimiento()"    ontouchend="moverCapipepoR()">Right
+            </button> 
         <div>
-            <button onmouseup="detenerMovimiento()" onmousedown="moverCapipepoL()">Left</button>
-            <button onmouseup="detenerMovimiento()" onmousedown="moverCapipepoU()">Up</button> 
-            <button onmouseup="detenerMovimiento()" onmousedown="moverCapipepoD()">Down</button>
+            <button onmouseup="detenerMovimiento()" onmousedown="moverCapipepoL()" ontouchstart="detenerMovimiento()"    ontouchend="moverCapipepoR()">Left</button>
+            <button onmouseup="detenerMovimiento()" onmousedown="moverCapipepoU()" ontouchstart="detenerMovimiento()"    ontouchend="moverCapipepoR()">Up</button> 
+            <button onmouseup="detenerMovimiento()" onmousedown="moverCapipepoD()" ontouchstart="detenerMovimiento()"    ontouchend="moverCapipepoR()">Down</button>
         </div>
     </section>
 
